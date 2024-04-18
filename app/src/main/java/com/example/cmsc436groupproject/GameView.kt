@@ -2,6 +2,7 @@ package com.example.cmsc436groupproject
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.Gravity
 import android.widget.Button
 import android.widget.GridLayout
@@ -16,6 +17,9 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
     )
 
     private lateinit var guessGrid: GridLayout
+    private var game: Game = Game(level)
+    private var currentGuessRow = 0
+    private var currentGuessColumn = 0
     init {
         orientation = VERTICAL
         layoutParams = LayoutParams(
@@ -66,7 +70,7 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
 
         for (i in 0 until (level + 1)) {
             for (j in 0 until level) {
-                val tile = GuessTile(context, (j+1).toString(), level)
+                val tile = GuessTile(context, "", level)
                 val tileParams = GridLayout.LayoutParams()
                 tileParams.width = tileWidth
                 tileParams.height = tileWidth
@@ -122,15 +126,67 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
             "⌫" -> {
                 // Handle backspace button click
                 // Remove the last entered digit from the current guess
+                if (currentGuessColumn > 0 || currentGuessRow > 0) {
+                    val currentGuessIndex = currentGuessRow * guessGrid.columnCount + currentGuessColumn
+                    if (currentGuessColumn > 0) {
+                        val guessTile = guessGrid.getChildAt(currentGuessIndex - 1) as GuessTile
+                        guessTile.text = ""
+                        currentGuessColumn--
+                    } else {
+                        currentGuessRow--
+                        currentGuessColumn = guessGrid.columnCount - 1
+                        val guessTile = guessGrid.getChildAt(currentGuessIndex - 1) as GuessTile
+                        guessTile.text = ""
+                    }
+                }
             }
             "ENTER" -> {
                 // Handle enter button click
                 // Submit the current guess
+                val currentGuess = getCurrentGuess()
+                val correctDigits = game.checkCorrectDigits(currentGuess)
+                val inPlaceDigits = game.checkInPlaceDigits(currentGuess)
+                Log.w("GameView", "$currentGuess")
+
+                for (i in currentGuess.indices) {
+                    val guessTileIndex = currentGuessRow * guessGrid.columnCount + i
+                    if (guessTileIndex < guessGrid.childCount) {
+                        val guessTile = guessGrid.getChildAt(guessTileIndex) as GuessTile
+                        if (inPlaceDigits.contains(currentGuess[i])) {
+                            guessTile.setBackgroundColor(Color.parseColor("#6ca965"))
+                        } else if (correctDigits.contains(currentGuess[i])) {
+                            guessTile.setBackgroundColor(Color.parseColor("#c8b653"))
+                        } else {
+                            guessTile.setBackgroundColor(Color.parseColor("#787c7f"))
+                        }
+                    } else {
+                        Log.w("GameView", "Guess tile index $guessTileIndex out of bounds")
+                    }
+                }
+
+                currentGuessRow++
+                currentGuessColumn = 0
             }
             else -> {
                 // Handle digit button click
                 // Add the clicked digit to the current guess
+                if (currentGuessRow < guessGrid.rowCount && currentGuessColumn < guessGrid.columnCount) {
+                    val guessTile =
+                        guessGrid.getChildAt(currentGuessRow * guessGrid.columnCount + currentGuessColumn) as GuessTile
+                    guessTile.text = buttonText
+                    currentGuessColumn++
+                }
             }
         }
+    }
+    private fun getCurrentGuess(): List<Int> {
+        val currentGuess = mutableListOf<Int>()
+        for (i in 0 until guessGrid.columnCount) {
+            val guessTile = guessGrid.getChildAt(currentGuessRow * guessGrid.columnCount + i) as GuessTile
+            if (!guessTile.text.isNullOrEmpty()) {
+                currentGuess.add(guessTile.text.toString().toInt())
+            }
+        }
+        return currentGuess
     }
 }

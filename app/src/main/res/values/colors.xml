@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="correctBoth">#538D4E</color>
+    <color name="correctDigit">#B59F3B</color>
+    <color name="wrong">#3A3A3C</color>
+    <color name="input">#818384</color>
 </resources>

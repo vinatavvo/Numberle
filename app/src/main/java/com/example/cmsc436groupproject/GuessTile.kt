@@ -2,23 +2,25 @@ package com.example.cmsc436groupproject
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 
-class GuessTile(context: Context, private var text: String, level: Int) : AppCompatTextView(context) {
+class GuessTile(context: Context, text: String, level: Int) : AppCompatTextView(context) {
 
     init {
         setText(text)
-        setTextSize(150f / level)
+        textSize = 150f / level
         setTextColor(Color.WHITE)
+        setTypeface(null, Typeface.BOLD)
         setBackgroundWithBorder()
         gravity = Gravity.CENTER
     }
 
     private fun setBackgroundWithBorder() {
-        val borderSize = 3
-        val borderColor = Color.GRAY
+        val borderSize = 8
+        val borderColor = context.getColor(R.color.wrong)
 
         val drawable = GradientDrawable()
         drawable.shape = GradientDrawable.RECTANGLE

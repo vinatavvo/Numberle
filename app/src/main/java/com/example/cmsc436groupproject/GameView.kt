@@ -2,8 +2,11 @@ package com.example.cmsc436groupproject
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
@@ -13,7 +16,7 @@ import android.widget.Toast
 class GameView(context: Context, level: Int) : LinearLayout(context) {
 
     private val inputButtonLabels = listOf(
-        "ENTER", "0", "1", "2", "3", "4",
+        "⏎", "0", "1", "2", "3", "4",
         "5", "6", "7", "8", "9", "⌫",
     )
 
@@ -65,7 +68,7 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
         guessGrid.columnCount = level
 
         val screenWidth = resources.displayMetrics.widthPixels
-        val borderSize = 3
+        val borderSize = 6
         val availableWidth = screenWidth - (level + 1) * 4 - 2
         val tileWidth = (availableWidth - borderSize * level) / level
 
@@ -75,7 +78,7 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
                 val tileParams = GridLayout.LayoutParams()
                 tileParams.width = tileWidth
                 tileParams.height = tileWidth
-                tileParams.setMargins(4, 4, 4, 4)
+                tileParams.setMargins(6, 6, 6, 6)
                 tile.layoutParams = tileParams
                 guessGrid.addView(tile)
             }
@@ -84,39 +87,58 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
         addView(guessGrid)
     }
 
+    private fun setRoundedBackground(view: View, cornerRadius: Float, color: Int) {
+        val drawable = GradientDrawable()
+        drawable.shape = GradientDrawable.RECTANGLE
+        drawable.cornerRadius = cornerRadius
+        drawable.setColor(color)
+        view.background = drawable
+    }
+
     private fun setupInputButtons(level: Int) {
         val numRows = 2
         val numCols = 6
-        val buttonWidth = resources.displayMetrics.widthPixels / numCols
+        val screenWidth = resources.displayMetrics.widthPixels
+        val buttonMargin = 4
+        val totalHorizontalMargin = (numCols + 1) * buttonMargin
+        val buttonWidth = (screenWidth - totalHorizontalMargin) / numCols - buttonMargin
 
         val gameGridLayout = GridLayout(context)
         gameGridLayout.rowCount = numRows
         gameGridLayout.columnCount = numCols
 
+        val buttonHeight = 150
+
         for (label in inputButtonLabels) {
             val button = Button(context)
             button.text = label
-            button.textSize = 14f
+            button.textSize = 28f
             button.setTextColor(Color.WHITE)
-            button.setBackgroundResource(android.R.drawable.btn_default)
+            button.setBackgroundColor(context.getColor(R.color.input))
+            setRoundedBackground(button, 20f, context.getColor(R.color.input))
             button.setOnClickListener {
                 handleInputButtonClick(label)
             }
+            button.setTypeface(null, Typeface.BOLD)
 
             val params = GridLayout.LayoutParams(
                 GridLayout.spec(GridLayout.UNDEFINED, 1f),
                 GridLayout.spec(GridLayout.UNDEFINED, 1f)
             )
             params.width = buttonWidth
+            params.height = buttonHeight // Set button height
             button.layoutParams = params
+
+            val buttonParams = MarginLayoutParams(buttonWidth, buttonHeight)
+            buttonParams.setMargins(buttonMargin, buttonMargin, buttonMargin, buttonMargin)
+            button.layoutParams = buttonParams
 
             gameGridLayout.addView(button)
         }
 
         val layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
-            0,
-            15f / level
+            LayoutParams.WRAP_CONTENT
         )
 
         addView(gameGridLayout, layoutParams)
@@ -141,7 +163,7 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
                     }
                 }
             }
-            "ENTER" -> {
+            "⏎" -> {
                 // Handle enter button click
                 // Submit the current guess
                 val currentGuess = getCurrentGuess()
@@ -185,9 +207,9 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
             val statusIndex = index - startIndex
             val status = statusList.getOrNull(statusIndex)
             when (status) {
-                "o" -> guessTile.setBackgroundColor(Color.parseColor("#6ca965"))
-                "-" -> guessTile.setBackgroundColor(Color.parseColor("#c8b653"))
-                else -> guessTile.setBackgroundColor(Color.parseColor("#787c7f"))
+                "o" -> guessTile.setBackgroundColor(context.getColor(R.color.correctBoth))
+                "-" -> guessTile.setBackgroundColor(context.getColor(R.color.correctDigit))
+                else -> guessTile.setBackgroundColor(context.getColor(R.color.wrong))
             }
         }
     }

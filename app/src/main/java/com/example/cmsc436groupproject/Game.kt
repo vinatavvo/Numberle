@@ -15,26 +15,26 @@ class Game(private val level: Int) {
         this.answer = answer
     }
 
-    fun checkCorrectDigits(guess: List<Int>): List<Int> {
+    fun checkCorrectDigits(guess: List<Int>): List<String> {
         val answerDigits = answer.toString().toCharArray().map { it.toString().toInt() }
-        val correctDigits = mutableListOf<Int>()
-        for (digit in guess) {
-            if (digit in answerDigits && digit != answerDigits[guess.indexOf(digit)]) {
-                correctDigits.add(digit)
-            }
-        }
-        return correctDigits.distinct()
-    }
+        val statusList = mutableListOf<String>()
 
-    fun checkInPlaceDigits(guess: List<Int>): List<Int> {
-        val answerDigits = answer.toString().toCharArray().map { it.toString().toInt() }
-        val inPlaceDigits = mutableListOf<Int>()
-        for (i in guess.indices) {
-            if (guess[i] == answerDigits[i]) {
-                inPlaceDigits.add(guess[i])
+        val markedAsCorrect = mutableSetOf<Int>()
+
+        for ((index, digit) in guess.withIndex()) {
+
+            if (digit == answerDigits[index]) {
+                statusList.add("o")
+                markedAsCorrect.add(digit)
+            } else if (digit in answerDigits && digit !in markedAsCorrect) {
+                statusList.add("-")
+                markedAsCorrect.add(digit)
+            } else {
+                statusList.add("x")
             }
         }
-        return inPlaceDigits.distinct()
+
+        return statusList
     }
 
     fun newStage() {

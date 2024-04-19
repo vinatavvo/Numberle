@@ -144,25 +144,9 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
                 // Handle enter button click
                 // Submit the current guess
                 val currentGuess = getCurrentGuess()
-                val correctDigits = game.checkCorrectDigits(currentGuess)
-                val inPlaceDigits = game.checkInPlaceDigits(currentGuess)
                 Log.w("GameView", "$currentGuess")
-
-                for (i in currentGuess.indices) {
-                    val guessTileIndex = currentGuessRow * guessGrid.columnCount + i
-                    if (guessTileIndex < guessGrid.childCount) {
-                        val guessTile = guessGrid.getChildAt(guessTileIndex) as GuessTile
-                        if (inPlaceDigits.contains(currentGuess[i])) {
-                            guessTile.setBackgroundColor(Color.parseColor("#6ca965"))
-                        } else if (correctDigits.contains(currentGuess[i])) {
-                            guessTile.setBackgroundColor(Color.parseColor("#c8b653"))
-                        } else {
-                            guessTile.setBackgroundColor(Color.parseColor("#787c7f"))
-                        }
-                    } else {
-                        Log.w("GameView", "Guess tile index $guessTileIndex out of bounds")
-                    }
-                }
+                val statusList = game.checkCorrectDigits(currentGuess)
+                highlightTiles(statusList, currentGuessRow) // Pass current guess row
 
                 currentGuessRow++
                 currentGuessColumn = 0
@@ -188,5 +172,20 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
             }
         }
         return currentGuess
+    }
+
+    private fun highlightTiles(statusList: List<String>, rowIndex: Int) {
+        val startIndex = rowIndex * guessGrid.columnCount
+        val endIndex = minOf(startIndex + guessGrid.columnCount, guessGrid.childCount)
+        for (index in startIndex until endIndex) {
+            val guessTile = guessGrid.getChildAt(index) as GuessTile
+            val statusIndex = index - startIndex
+            val status = statusList.getOrNull(statusIndex)
+            when (status) {
+                "o" -> guessTile.setBackgroundColor(Color.parseColor("#6ca965"))
+                "-" -> guessTile.setBackgroundColor(Color.parseColor("#c8b653"))
+                else -> guessTile.setBackgroundColor(Color.parseColor("#787c7f"))
+            }
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.cmsc436groupproject
 
 import android.util.Log
+import android.widget.Toast
 import kotlin.random.Random
 
-class Game(private val level: Int) {
+class Game(private var level: Int) {
     private var currScore: Float = 0.0F
     private var answer: Long = 0
+    private var remainingGuesses: Int = level + 1
+    private var isGameOver: Boolean = false
 
     init {
         genAnswer()
@@ -34,10 +37,17 @@ class Game(private val level: Int) {
             }
         }
 
+        remainingGuesses--
+        if (remainingGuesses <= 0) {
+            isGameOver = true
+        }
+
         return statusList
     }
 
     fun newStage() {
+        level++
+        remainingGuesses = level + 1
         genAnswer()
     }
 
@@ -55,6 +65,10 @@ class Game(private val level: Int) {
 
     fun getAnswer(): Long {
         return answer
+    }
+
+    fun isGameOver(): Boolean {
+        return isGameOver
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 
 class GameView(context: Context, level: Int) : LinearLayout(context) {
 
@@ -144,12 +145,14 @@ class GameView(context: Context, level: Int) : LinearLayout(context) {
                 // Handle enter button click
                 // Submit the current guess
                 val currentGuess = getCurrentGuess()
-                Log.w("GameView", "$currentGuess")
-                val statusList = game.checkCorrectDigits(currentGuess)
-                highlightTiles(statusList, currentGuessRow) // Pass current guess row
-
-                currentGuessRow++
-                currentGuessColumn = 0
+                if (currentGuess.size < guessGrid.columnCount) {
+                    Toast.makeText(context, "Not enough digits", Toast.LENGTH_SHORT).show()
+                } else {
+                    val statusList = game.checkCorrectDigits(currentGuess)
+                    highlightTiles(statusList, currentGuessRow) // Pass current guess row
+                    currentGuessRow++
+                    currentGuessColumn = 0
+                }
             }
             else -> {
                 // Handle digit button click

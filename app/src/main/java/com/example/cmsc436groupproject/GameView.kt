@@ -14,6 +14,7 @@ import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ProgressBar
 
 class GameView(context: Context, private var level: Int) : LinearLayout(context) {
 
@@ -28,6 +29,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
     private var game: Game = Game(level)
     private var currentGuessRow = 0
     private var currentGuessColumn = 0
+    private lateinit var progressBar: ProgressBar
 
     init {
         orientation = VERTICAL
@@ -59,6 +61,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
 
         setupGuessGrid(level)
         setupInputButtons()
+        setupProgressBar()
     }
 
     private fun setupGuessGrid(level: Int) {
@@ -189,6 +192,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                     val statusList = game.checkCorrectDigits(currentGuess)
                     highlightTiles(statusList, currentGuessRow)
                     disableButton(game.getWrongAnswers())
+                    updateProgressBar(statusList)
                     currentGuessRow++
                     currentGuessColumn = 0
                     if (statusList.all { it == "o" }) {
@@ -273,4 +277,24 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         currentGuessColumn = 0
         game.newStage()
     }
+
+    private fun setupProgressBar() {
+        progressBar = ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal)
+        val progressBarParams = LayoutParams(
+            LayoutParams.MATCH_PARENT,
+            LayoutParams.WRAP_CONTENT
+        )
+        progressBar.layoutParams = progressBarParams
+        progressBar.max = 100
+        progressBar.progress = 0
+
+        addView(progressBar)
+    }
+
+    private fun updateProgressBar(statusList: List<String>) {
+        val correctCount = statusList.count { it == "o" }
+        val progress = ((correctCount.toFloat() / statusList.size) * 100).toInt()
+        progressBar.progress = progress
+    }
+
 }

@@ -30,7 +30,7 @@ class Game(private var level: Int) {
             if (digit == answerDigits[index]) {
                 statusList.add("o")
                 markedAsCorrect.add(digit)
-            } else if (digit in answerDigits && digit !in markedAsCorrect) {
+            } else if (digit != answerDigits[index] && digit in answerDigits) {
                 statusList.add("-")
                 markedAsCorrect.add(digit)
             } else {

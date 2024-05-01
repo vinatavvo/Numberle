@@ -15,6 +15,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ProgressBar
+import kotlin.math.abs
+import kotlin.math.pow
 
 class GameView(context: Context, private var level: Int) : LinearLayout(context) {
 
@@ -191,7 +193,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                     val statusList = game.checkCorrectDigits(currentGuess)
                     highlightTiles(statusList, currentGuessRow)
                     disableButton(game.getWrongAnswers())
-                    updateProgressBar(statusList)
+                    updateProgressBar(currentGuess)
                     currentGuessRow++
                     currentGuessColumn = 0
                     if (statusList.all { it == "o" }) {
@@ -275,6 +277,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         setupInputButtons()
         currentGuessRow = 0
         currentGuessColumn = 0
+        progressBar.progress = 0
         game.newStage()
     }
 
@@ -291,10 +294,22 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         addView(progressBar)
     }
 
-    private fun updateProgressBar(statusList: List<String>) {
-        val correctCount = statusList.count { it == "o" }
-        val progress = ((correctCount.toFloat() / statusList.size) * 100).toInt()
+    private fun updateProgressBar(currentGuess: List<Int>) {
+        var guess: Long = 0
+        for (i in currentGuess.indices) {
+            guess += (currentGuess[i] * (10.0.pow(currentGuess.size - 1 - i).toInt()))
+        }
+
+        val answer = game.getAnswer()
+
+        val difference = abs(guess - answer)
+
+        val maxDifference = 10.0.pow(currentGuess.size).toLong() - 1
+        val differencePercentage = (difference.toFloat() / maxDifference) * 100
+
+        val progress = 100 - differencePercentage.toInt()
         progressBar.progress = progress
     }
+
 
 }

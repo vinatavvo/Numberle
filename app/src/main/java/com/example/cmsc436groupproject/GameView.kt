@@ -58,10 +58,9 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         )
         levelTextView.layoutParams = levelParams
         addView(levelTextView)
-
+        setupProgressBar()
         setupGuessGrid(level)
         setupInputButtons()
-        setupProgressBar()
     }
 
     private fun setupGuessGrid(level: Int) {

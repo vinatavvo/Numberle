@@ -192,6 +192,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                     currentGuessRow++
                     currentGuessColumn = 0
                     if (statusList.all { it == "o" }) {
+                        Toast.makeText(context, "Great!", Toast.LENGTH_SHORT).show()
                         val handler = Handler(Looper.getMainLooper())
                         handler.postDelayed({
                             nextLevel()

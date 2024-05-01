@@ -253,6 +253,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                 val buttonNumber = buttonLabel.toIntOrNull()
                 if (buttonNumber != null && buttonNumber in wrongAnswers) {
                     button.isEnabled = false
+                    setRoundedBackground(button, 20f, context.getColor(R.color.wrong))
                 }
             }
         }

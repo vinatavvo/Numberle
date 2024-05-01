@@ -40,7 +40,7 @@ class Game(private var level: Int) {
         }
 
         remainingGuesses--
-        if (remainingGuesses <= 0) {
+        if (remainingGuesses <= 0 && (guess.joinToString("").toLong() != answer)) {
             isGameOver = true
         }
 

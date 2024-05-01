@@ -9,9 +9,10 @@ class Game(private var level: Int) {
     private var answer: Long = 0
     private var remainingGuesses: Int = level + 1
     private var isGameOver: Boolean = false
-
+    private var wrongAnswer : MutableSet<Int>
     init {
         genAnswer()
+        wrongAnswer = mutableSetOf()
     }
 
     fun setAnswer(answer: Long) {
@@ -34,6 +35,7 @@ class Game(private var level: Int) {
                 markedAsCorrect.add(digit)
             } else {
                 statusList.add("x")
+                wrongAnswer.add(digit)
             }
         }
 
@@ -48,6 +50,7 @@ class Game(private var level: Int) {
     fun newStage() {
         level++
         remainingGuesses = level + 1
+        wrongAnswer = mutableSetOf()
         genAnswer()
     }
 
@@ -69,6 +72,10 @@ class Game(private var level: Int) {
 
     fun isGameOver(): Boolean {
         return isGameOver
+    }
+
+    fun getWrongAnswers(): MutableSet<Int> {
+        return wrongAnswer
     }
 
 }

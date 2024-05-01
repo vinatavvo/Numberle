@@ -188,6 +188,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                 } else {
                     val statusList = game.checkCorrectDigits(currentGuess)
                     highlightTiles(statusList, currentGuessRow)
+                    disableButton(game.getWrongAnswers())
                     currentGuessRow++
                     currentGuessColumn = 0
                     if (statusList.all { it == "o" }) {
@@ -238,6 +239,22 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
             }
         }
     }
+
+    private fun disableButton(wrongAnswers: MutableSet<Int>) {
+        for (rowIndex in 0 until inputButtonsLayout.childCount) {
+            val rowLayout = inputButtonsLayout.getChildAt(rowIndex) as LinearLayout
+            for (colIndex in 0 until rowLayout.childCount) {
+                val button = rowLayout.getChildAt(colIndex) as Button
+                val buttonLabel = button.text.toString()
+
+                val buttonNumber = buttonLabel.toIntOrNull()
+                if (buttonNumber != null && buttonNumber in wrongAnswers) {
+                    button.isEnabled = false
+                }
+            }
+        }
+    }
+
 
     private fun gameOver() {
         val generatedAnswer = game.getAnswer().toString()

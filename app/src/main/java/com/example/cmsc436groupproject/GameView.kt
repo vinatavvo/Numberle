@@ -175,11 +175,6 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
                         val guessTile = guessGrid.getChildAt(currentGuessIndex - 1) as GuessTile
                         guessTile.text = ""
                         currentGuessColumn--
-                    } else {
-                        currentGuessRow--
-                        currentGuessColumn = guessGrid.columnCount - 1
-                        val guessTile = guessGrid.getChildAt(currentGuessIndex - 1) as GuessTile
-                        guessTile.text = ""
                     }
                 }
             }
@@ -304,9 +299,9 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
 
         val difference = abs(guess - answer)
 
-        val maxDifference = 10.0.pow(currentGuess.size).toLong() - 1
-        val differencePercentage = (difference.toFloat() / maxDifference) * 100
-
+        val maxDifference = answer/100
+        val differencePercentage = (difference.toFloat() / maxDifference)
+        Log.d("Main", differencePercentage.toString())
         val progress = 100 - differencePercentage.toInt()
         progressBar.progress = progress
     }

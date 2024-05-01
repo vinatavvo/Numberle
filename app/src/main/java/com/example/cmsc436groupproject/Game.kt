@@ -21,31 +21,45 @@ class Game(private var level: Int) {
 
     fun checkCorrectDigits(guess: List<Int>): List<String> {
         val answerDigits = answer.toString().toCharArray().map { it.toString().toInt() }
+
         val statusList = mutableListOf<String>()
 
-        val markedAsCorrect = mutableSetOf<Int>()
+        val answerMap = mutableMapOf<Int, Int>()
+        val guessMap = mutableMapOf<Int, Int>()
+
+        for (digit in answerDigits) {
+            answerMap[digit] = answerMap.getOrDefault(digit, 0) + 1
+        }
 
         for ((index, digit) in guess.withIndex()) {
-
             if (digit == answerDigits[index]) {
                 statusList.add("o")
-                markedAsCorrect.add(digit)
-            } else if (digit != answerDigits[index] && digit in answerDigits) {
-                statusList.add("-")
-                markedAsCorrect.add(digit)
+
+                guessMap[digit] = guessMap.getOrDefault(digit, 0) + 1
             } else {
                 statusList.add("x")
                 wrongAnswer.add(digit)
             }
         }
 
-        remainingGuesses--
-        if (remainingGuesses <= 0 && (guess.joinToString("").toLong() != answer)) {
-            isGameOver = true
+        for ((index, digit) in guess.withIndex()) {
+            if (statusList[index] == "x" && digit in answerDigits) {
+                if (guessMap.getOrDefault(digit, 0) < answerMap.getOrDefault(digit, 0)) {
+                    statusList[index] = "-"
+                    guessMap[digit] = guessMap.getOrDefault(digit, 0) + 1
+                }
+            }
         }
-
+        for (digit in wrongAnswer.toList()) {
+            if (digit in answerDigits) {
+                Log.d("Game", wrongAnswer.toString())
+                wrongAnswer.remove(digit)
+                Log.d("Game", wrongAnswer.toString())
+            }
+        }
         return statusList
     }
+
 
     fun newStage() {
         level++

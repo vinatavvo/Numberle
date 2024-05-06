@@ -14,7 +14,7 @@
         android:layout_centerInParent="true"
         android:text="NUMBERLE"
         android:textColor="@color/white"
-        android:textSize="60dp" />
+        android:textSize="60sp" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/signInButton"
@@ -23,8 +23,7 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:background="@color/correctDigit"
-        android:text="Sign in with Google" />
+        android:background="@color/correctDigit" />
 
 <!--    <Spinner-->
 <!--        android:id="@+id/spinner"-->

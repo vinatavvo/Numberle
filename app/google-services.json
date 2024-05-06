@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "127768280891",
+    "project_id": "cmsc436-group-project-e139e",
+    "storage_bucket": "cmsc436-group-project-e139e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127768280891:android:3f58f28a0b7bb62a54811e",
+        "android_client_info": {
+          "package_name": "com.example.cmsc436groupproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLYwIrbDHaq0lrV92ECUJnKwgE6RiE51w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

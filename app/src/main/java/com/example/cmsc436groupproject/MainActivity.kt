@@ -9,9 +9,9 @@ class MainActivity : AppCompatActivity() {
     private var level: Int = 5
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
-        gameView = GameView(this, level)
-        setContentView(gameView)
+//        gameView = GameView(this, level)
+//        setContentView(gameView)
     }
 }

@@ -24,10 +24,6 @@ class LoginView : AppCompatActivity() {
 
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("emails")
-
-
-
-
     }
 
     fun play(v: View){

@@ -16,15 +16,6 @@
         android:textColor="@color/white"
         android:textSize="60sp" />
 
-<!--    <com.google.android.gms.common.SignInButton-->
-<!--        android:id="@+id/signInButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/title"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:background="@color/correctDigit" />-->
-
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -61,17 +52,15 @@
         android:textColor="@color/black" />
 
 
-    <!--    <Spinner-->
-<!--        android:id="@+id/spinner"-->
-<!--        android:layout_width="125dp"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_below="@+id/signInButton"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_marginBottom="350dp"-->
-<!--        android:text="Select Level"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:background="@color/correctBoth" />-->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/play"
+        android:text="Select Level"
+        android:background="@color/white"/>
+
 
 </RelativeLayout>

@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:text="NUMBERLE"
+        android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="60sp" />
 
@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:id="@+id/leaderboardContainer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
@@ -38,5 +38,30 @@
         android:orientation="vertical">
     </LinearLayout>
 
+    <Button
+        android:id="@+id/playAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_below="@+id/leaderboardContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:onClick="login"
+        android:text="Play Again"
+        android:textSize="20sp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/loginScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/playAgain"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:onClick="play"
+        android:text="Go to Login Screen"
+        android:textSize="20sp"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

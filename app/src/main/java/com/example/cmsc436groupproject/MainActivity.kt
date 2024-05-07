@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var firebase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
     private lateinit var email: String
-    private var level: Int = 5
     private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +37,6 @@ class MainActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.login)
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("emails")
-
-        email = emailText.text.toString()
-        reference.child(email).setValue(5)
 
         val defaultText = "Select Level"
         val defaultList = mutableListOf(defaultText)
@@ -59,7 +55,6 @@ class MainActivity : AppCompatActivity() {
 
     fun login(v: View) {
         email = emailText.text.toString()
-        reference.child(email).setValue(5)
 
         reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -77,21 +72,29 @@ class MainActivity : AppCompatActivity() {
 
     fun play(v: View) {
         val selectedLevelPosition = spinner.selectedItemPosition
-        // if level has not been chosen, push notification to choose one
-        if (selectedLevelPosition == 0) {
-            return
+        val selectedLevelText = spinner.selectedItem.toString()
+        var levelNumber = 0
+        if (selectedLevelText == "Select Level"){
+            // implement push notification to tell them to choose a level
+            Log.w("MainActivity", "PUSH NOTIFICATION")
+        } else {
+            levelNumber = selectedLevelText.substringAfter("Level ").toInt()
         }
 
-        val selectedLevel = spinner.count - selectedLevelPosition
+        Log.d("MainActivity", "Selected Level Position: $selectedLevelPosition")
+        Log.d("MainActivity", "Selected Level Number: $levelNumber")
+        Log.d("MainActivity", "Spinner Count: ${spinner.count}")
 
-        gameView = GameView(this, selectedLevel)
+        gameView = GameView(this, levelNumber + 1)
         setContentView(gameView)
     }
 
     private fun populateSpinner(email: String) {
         reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val highestLevel = dataSnapshot.child("level").getValue(Int::class.java) ?: 0
+                Log.w("MainActivity", dataSnapshot.getValue(Int::class.java).toString())
+                val highestLevel = dataSnapshot.getValue(Int::class.java) ?: 1
+                Log.d("MainActivity", "Highest Level: $highestLevel")
                 val levels = mutableListOf<String>()
                 for (level in highestLevel downTo 1) {
                     levels.add("Level $level")

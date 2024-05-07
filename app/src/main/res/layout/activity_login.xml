@@ -40,10 +40,22 @@
         android:textColorHint="#808080"/>
 
     <Button
-        android:id="@+id/play"
+        android:id="@+id/login"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_alignTop="@+id/editTextEmail"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="68dp"
+        android:backgroundTint="@color/white"
+        android:onClick="login"
+        android:text="Login"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/play"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/login"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="68dp"
         android:backgroundTint="@color/white"
@@ -56,11 +68,13 @@
         android:id="@+id/spinner"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/play"
         android:text="Select Level"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
 
 
 </RelativeLayout>

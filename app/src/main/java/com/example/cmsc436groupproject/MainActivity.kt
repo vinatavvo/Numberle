@@ -31,8 +31,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun play(v: View){
-        var email = findViewById<EditText>(R.id.editTextEmail).toString()
+        var email = findViewById<EditText>(R.id.editTextUser).text.toString()
 
+        reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (!snapshot.exists()) {
+                    reference.child(email).setValue(0)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w( "MainActivity", "error: " + error.message )
+            }
+        })
 
         gameView = GameView(this, level)
         setContentView(gameView)

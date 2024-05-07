@@ -24,26 +24,26 @@
         android:layout_marginLeft="50dp"
         android:layout_marginBottom="-58dp"
         android:padding="5dp"
-        android:text="Email:"
+        android:text="Name:"
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/editTextName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignLeft="@+id/name"
         android:layout_alignBottom="@+id/title"
         android:layout_marginLeft="78dp"
         android:layout_marginBottom="-64dp"
         android:textColor="@color/white"
-        android:hint="Enter your email"
+        android:hint="Enter name"
         android:textColorHint="#808080"/>
 
     <Button
         android:id="@+id/login"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_alignTop="@+id/editTextEmail"
+        android:layout_alignBottom="@+id/editTextName"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="68dp"
         android:backgroundTint="@color/white"
@@ -55,7 +55,7 @@
         android:id="@+id/play"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_alignTop="@+id/login"
+        android:layout_alignBottom="@+id/login"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="68dp"
         android:backgroundTint="@color/white"
@@ -67,8 +67,9 @@
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="125dp"
-        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/play"
         android:text="Select Level"

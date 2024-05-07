@@ -27,7 +27,7 @@ class LoginView : AppCompatActivity() {
     }
 
     fun play(v: View){
-        var email = findViewById<EditText>(R.id.editTextEmail).toString()
+        var email = findViewById<EditText>(R.id.editTextName).toString()
 
     }
 

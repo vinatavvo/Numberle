@@ -16,15 +16,6 @@
         android:textColor="@color/white"
         android:textSize="60sp" />
 
-<!--    <com.google.android.gms.common.SignInButton-->
-<!--        android:id="@+id/signInButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@+id/title"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:background="@color/correctDigit" />-->
-
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -33,26 +24,26 @@
         android:layout_marginLeft="50dp"
         android:layout_marginBottom="-58dp"
         android:padding="5dp"
-        android:text="Username:"
+        android:text="Name:"
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/editTextUser"
+        android:id="@+id/editTextName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_alignLeft="@+id/name"
         android:layout_alignBottom="@+id/title"
         android:layout_marginLeft="78dp"
         android:layout_marginBottom="-64dp"
         android:textColor="@color/white"
-        android:hint="Enter username"
+        android:hint="Enter name"
         android:textColorHint="#808080"/>
 
     <Button
         android:id="@+id/play"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_alignTop="@+id/editTextUser"
+        android:layout_alignTop="@+id/editTextName"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="68dp"
         android:backgroundTint="@color/white"
@@ -62,9 +53,9 @@
 
 
     <Spinner
-        android:id = "@+id/spinner"
+        android:id="@+id/spinner"
         android:layout_width="125dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/play"

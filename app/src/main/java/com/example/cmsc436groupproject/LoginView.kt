@@ -24,14 +24,10 @@ class LoginView : AppCompatActivity() {
 
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("emails")
-
-
-
-
     }
 
     fun play(v: View){
-        var email = findViewById<EditText>(R.id.editTextEmail).toString()
+        var email = findViewById<EditText>(R.id.editTextName).toString()
 
     }
 

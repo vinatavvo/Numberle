@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun play(v: View){
-        var email = findViewById<EditText>(R.id.editTextUser).text.toString()
+        var email = findViewById<EditText>(R.id.editTextName).text.toString()
 
         reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

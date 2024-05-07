@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         spinner = findViewById(R.id.spinner)
-        emailText = findViewById(R.id.editTextEmail)
+        emailText = findViewById(R.id.editTextName)
         playButton = findViewById(R.id.play)
         loginButton = findViewById(R.id.login)
         firebase = FirebaseDatabase.getInstance()

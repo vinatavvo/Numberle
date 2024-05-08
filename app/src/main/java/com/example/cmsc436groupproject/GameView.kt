@@ -1,5 +1,6 @@
 package com.example.cmsc436groupproject
 
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -17,10 +18,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-
-import androidx.core.content.ContextCompat.startActivity
-
-
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -280,7 +277,11 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val generatedAnswer = game.getAnswer().toString()
         val toastMessage = "Game Over. The answer was: $generatedAnswer"
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
-
+        val sharedPrefs = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        with(sharedPrefs.edit()) {
+            putString("score", (level - 2).toString())
+            apply()
+        }
         var name = MainActivity.getName(context)
         var firebase = FirebaseDatabase.getInstance()
         var reference = firebase.getReference("usernames")

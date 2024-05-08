@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -58,11 +59,15 @@ class MainActivity : AppCompatActivity() {
 
         reference.child(username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if(username.isEmpty()){
+                    Toast.makeText(v.context, "Input A Username", Toast.LENGTH_LONG).show()
+                    return
+                }
                 if (!dataSnapshot.exists()) {
                     reference.child(username).setValue(1)
-                    // push notification that an account was created
+                    Toast.makeText(v.context, "Account Created", Toast.LENGTH_LONG).show()
                 }
-                // push notification that they're logged in
+                Toast.makeText(v.context, "Successful Log In", Toast.LENGTH_LONG).show()
                 populateSpinner(username)
             }
 
@@ -77,8 +82,8 @@ class MainActivity : AppCompatActivity() {
         val selectedLevelText = spinner.selectedItem.toString()
         var levelNumber = 1
         if (selectedLevelText == "Select Level"){
-            // implement push notification to tell them to choose a level
-            Log.w("MainActivity", "PUSH NOTIFICATION")
+            Toast.makeText(this, "Need to Log In", Toast.LENGTH_LONG).show()
+            return
         } else {
             levelNumber = selectedLevelText.substringAfter("Level ").toInt()
         }

@@ -67,11 +67,11 @@
         android:layout_below="@+id/leaderboardListView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/correctDigit"
         android:onClick="goContinue"
         android:text="Try Level Again"
         android:textSize="20sp"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/loginScreen"
@@ -80,10 +80,10 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/playAgain"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="@color/correctBoth"
         android:onClick="goLogin"
         android:text="Go to Login Screen"
         android:textSize="20sp"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
 </RelativeLayout>

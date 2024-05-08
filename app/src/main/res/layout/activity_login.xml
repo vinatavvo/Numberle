@@ -22,10 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/title"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginBottom="-58dp"
         android:padding="5dp"
-        android:text="Name:"
+        android:text="Username:"
         android:textSize="20sp"
         android:textColor="@color/white" />
 
@@ -35,10 +35,10 @@
         android:layout_height="48dp"
         android:layout_alignLeft="@+id/name"
         android:layout_alignBottom="@+id/title"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="120dp"
         android:layout_marginBottom="-62dp"
         android:textSize="20sp"
-        android:hint="Enter name"
+        android:hint="Enter Username"
         android:textColor="@color/white"
         android:textColorHint="#808080" />
 
@@ -49,10 +49,11 @@
         android:layout_below="@+id/usernameInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:backgroundTint="@color/white"
+        android:textSize="20sp"
+        android:backgroundTint="@color/correctDigit"
         android:onClick="login"
         android:text="Login"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/play"
@@ -62,10 +63,11 @@
         android:layout_below="@+id/login"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
+        android:textSize="20sp"
+        android:backgroundTint="@color/correctBoth"
         android:onClick="play"
         android:text="Play"
-        android:textColor="@color/black" />
+        android:textColor="@color/white" />
 
 
     <Spinner
@@ -74,6 +76,7 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:textSize="20sp"
         android:layout_below="@+id/play"
         android:text="Select Level"
         android:textAlignment="center"

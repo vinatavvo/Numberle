@@ -18,13 +18,13 @@ import com.google.firebase.database.ValueEventListener
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gameView: GameView
-    private lateinit var emailText: EditText
+    private lateinit var usernameInput: EditText
     private lateinit var playButton: Button
     private lateinit var loginButton: Button
     private lateinit var spinner: Spinner
     private lateinit var firebase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
-    private lateinit var email: String
+    private lateinit var username: String
     private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         spinner = findViewById(R.id.spinner)
-        emailText = findViewById(R.id.editTextName)
+        usernameInput = findViewById(R.id.usernameInput)
         playButton = findViewById(R.id.play)
         loginButton = findViewById(R.id.login)
         firebase = FirebaseDatabase.getInstance()
-        reference = firebase.getReference("emails")
+        reference = firebase.getReference("usernames")
 
         val defaultText = "Select Level"
         val defaultList = mutableListOf(defaultText)
@@ -54,15 +54,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun login(v: View) {
-        email = emailText.text.toString()
-        reference.child(email).setValue(5)
+        username = usernameInput.text.toString()
+        reference.child(username).setValue(5)
 
-        reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
+        reference.child(username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    reference.child(email).setValue(0)
+                    reference.child(username).setValue(0)
+                    // push notification that an account was created
                 }
-                populateSpinner(email)
+                // push notification that they're logged in
+                populateSpinner(username)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -90,8 +92,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(gameView)
     }
 
-    private fun populateSpinner(email: String) {
-        reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
+    private fun populateSpinner(username: String) {
+        reference.child(username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 Log.w("MainActivity", dataSnapshot.getValue(Int::class.java).toString())
                 val highestLevel = dataSnapshot.getValue(Int::class.java) ?: 1

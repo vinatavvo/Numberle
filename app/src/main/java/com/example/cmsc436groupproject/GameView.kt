@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -282,7 +283,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
             putString("score", (level - 2).toString())
             apply()
         }
-        var name = MainActivity.getName(context)
+        var name = getName()
         var firebase = FirebaseDatabase.getInstance()
         var reference = firebase.getReference("usernames")
         reference.addValueEventListener(object : ValueEventListener {
@@ -403,6 +404,10 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
             super.onAdFailedToShowFullScreenContent(p0)
             Log.w( "MainActivity", " ad failed to show" )
         }
+    }
+    private fun getName(): String? {
+        val sharedPrefs = context.getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
+        return sharedPrefs.getString("username", null)
     }
 
 }

@@ -185,9 +185,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    companion object {
-        fun getName(context: Context): String {
-            return (context as MainActivity).username
-        }
-    }
+
+
 }

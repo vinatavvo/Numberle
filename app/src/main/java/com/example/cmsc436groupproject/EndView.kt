@@ -28,6 +28,9 @@ import com.google.firebase.database.ValueEventListener
 
 
 class EndView: AppCompatActivity(){
+    private lateinit var returnLevel: Button
+    private lateinit var returnLog : Button
+
     private lateinit var listView: ListView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var leaderboardAdapter: ArrayAdapter<String>
@@ -41,6 +44,17 @@ class EndView: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end)
+
+        returnLog = findViewById(R.id.loginScreen)
+        returnLevel = findViewById(R.id.playAgain)
+
+        returnLog.setOnClickListener{
+            goLogin()
+        }
+
+        returnLevel.setOnClickListener {
+            goContinue()
+        }
 
         titleTextView = findViewById(R.id.title)
         userScoreTextView = findViewById(R.id.userScore)
@@ -135,7 +149,7 @@ class EndView: AppCompatActivity(){
 
     private fun goContinue() {
         val score = getScore()
-        // have the level passed in from local storage
+        // have the level passed in  local storage
         gameView = GameView(this, score + 2)
         setContentView(gameView)
     }

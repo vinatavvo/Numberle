@@ -36,7 +36,7 @@ class EndView: AppCompatActivity(){
         setContentView(R.layout.activity_end)
 
         val currentUsername = getUsername()
-        val currentScore = getScore()
+        val score = getScore()
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -64,7 +64,7 @@ class EndView: AppCompatActivity(){
                 for ((index, entry) in leaderboardEntries.withIndex()) {
                     val username = entry.first
                     val highScore = entry.second
-                    if (username == currentUsername && currentRank == 1 && highScore == currentScore) {
+                    if (username == currentUsername && currentRank == 1 && highScore == score) {
                         sendPushNotification(username, highScore)
                     }
                     if (index > 0 && highScore != currentScore) {
@@ -90,8 +90,9 @@ class EndView: AppCompatActivity(){
     }
 
     private fun goContinue() {
+        val score = getScore()
         // have the level passed in from local storage
-        gameView = GameView(this, 1 + 2)
+        gameView = GameView(this, score + 2)
         setContentView(gameView)
     }
 
@@ -124,7 +125,7 @@ class EndView: AppCompatActivity(){
         return sharedPrefs.getString("username", null)
     }
 
-    private fun getScore(): Int? {
+    private fun getScore(): Int {
         val sharedPrefs = getSharedPreferences("AppPrefs", MODE_PRIVATE)
         val score = sharedPrefs.getString("score", null)
         if (score != null) {

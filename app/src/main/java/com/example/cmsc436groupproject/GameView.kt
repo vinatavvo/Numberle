@@ -273,12 +273,8 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val toastMessage = "Game Over. The answer was: $generatedAnswer"
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
 
-//        endView = EndView(this)
-//        setContentView(endView)
-//
-//        // go to end screen
-//        val intent = Intent(this, EndView)
-//        intent.putExtra("answer", generatedAnswer)
+        // go to end screen
+//        val intent = Intent(this, EndView::class.java)
 //        startActivity(intent)
 //        finish()
     }

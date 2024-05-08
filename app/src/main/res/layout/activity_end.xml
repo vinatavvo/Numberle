@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/black">
 
     <TextView
@@ -11,10 +10,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
         android:text="NUMBERLE"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="60sp" />
+
+    <TextView
+        android:id="@+id/userScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:text="Current Score: " />
+
+    <TextView
+        android:id="@+id/userHighScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_below="@+id/userScore"
+        android:layout_centerHorizontal="true"
+        android:text="High Score: " />
 
     <TextView
         android:id="@+id/leaderboard"
@@ -23,30 +44,31 @@
         android:layout_marginTop="20dp"
         android:textSize="40sp"
         android:textColor="@color/white"
-        android:layout_below="@+id/title"
+        android:layout_below="@+id/userHighScore"
         android:layout_centerHorizontal="true"
-        android:text="Leaderboard"
-        android:layout_margin="16dp"/>
+        android:text="Leaderboard"/>
 
-    <LinearLayout
-        android:id="@+id/leaderboardContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/leaderboard"
-        android:orientation="vertical">
-    </LinearLayout>
+    <ListView
+        android:id="@+id/leaderboardListView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@id/leaderboard"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:padding="5dp"
+        android:scrollbars="none" />
 
     <Button
         android:id="@+id/playAgain"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_below="@+id/leaderboardContainer"
+        android:layout_below="@+id/leaderboardListView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/white"
-        android:onClick="login"
+        android:onClick="goContinue"
         android:text="Try Level Again"
         android:textSize="20sp"
         android:textColor="@color/black" />
@@ -59,7 +81,7 @@
         android:layout_below="@+id/playAgain"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/white"
-        android:onClick="play"
+        android:onClick="goLogin"
         android:text="Go to Login Screen"
         android:textSize="20sp"
         android:textColor="@color/black" />

@@ -29,8 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EndView">
-        </activity>
+        <activity android:name=".EndView" />
+        <activity android:name=".GameView" />
         <activity
             android:name="com.google.android.gms.ads.AdActivity" />
 

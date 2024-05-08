@@ -55,12 +55,11 @@ class MainActivity : AppCompatActivity() {
 
     fun login(v: View) {
         username = usernameInput.text.toString()
-        reference.child(username).setValue(5)
 
         reference.child(username).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    reference.child(username).setValue(0)
+                    reference.child(username).setValue(1)
                     // push notification that an account was created
                 }
                 // push notification that they're logged in

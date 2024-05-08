@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/white"
         android:onClick="login"
-        android:text="Play Again"
+        android:text="Try Level Again"
         android:textSize="20sp"
         android:textColor="@color/black" />
 

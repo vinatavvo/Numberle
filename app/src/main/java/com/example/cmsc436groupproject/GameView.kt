@@ -2,6 +2,7 @@ package com.example.cmsc436groupproject
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
@@ -40,6 +41,7 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
     private var currentGuessColumn = 0
     private lateinit var progressBar: ProgressBar
     private var ad : InterstitialAd? = null
+    private lateinit var endView: EndView
 
     init {
         orientation = VERTICAL
@@ -270,6 +272,15 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val generatedAnswer = game.getAnswer().toString()
         val toastMessage = "Game Over. The answer was: $generatedAnswer"
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
+
+//        endView = EndView(this)
+//        setContentView(endView)
+//
+//        // go to end screen
+//        val intent = Intent(this, EndView)
+//        intent.putExtra("answer", generatedAnswer)
+//        startActivity(intent)
+//        finish()
     }
 
     private fun nextLevel() {

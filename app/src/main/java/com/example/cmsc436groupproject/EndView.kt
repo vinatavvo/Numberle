@@ -3,6 +3,8 @@ package com.example.cmsc436groupproject
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,14 +13,21 @@ class EndView : AppCompatActivity(){
     private lateinit var listView: ListView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var leaderboardAdapter: ArrayAdapter<String>
+    private lateinit var gameView: GameView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end)
 
         listView = findViewById(R.id.leaderboardListView)
-        leaderboardAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
+        leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                return view
+            }
+        }
         listView.adapter = leaderboardAdapter
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("usernames")
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -32,13 +41,18 @@ class EndView : AppCompatActivity(){
 
                 leaderboardEntries.sortByDescending { it.second }
                 leaderboardAdapter.clear()
-                val numEntriesToShow = minOf(leaderboardEntries.size, 5)
-                for (i in 0 until numEntriesToShow) {
-                    val entry = leaderboardEntries[i]
+                var currentRank = 1
+                var currentScore = Int.MAX_VALUE
+                for ((index, entry) in leaderboardEntries.withIndex()) {
                     val username = entry.first
                     val highScore = entry.second
-                    val leaderboardItem = "$username: $highScore"
+                    if (index > 0 && highScore != currentScore) {
+                        currentRank++
+                        if (currentRank > 5) break
+                    }
+                    val leaderboardItem = "#$currentRank $username: $highScore"
                     leaderboardAdapter.add(leaderboardItem)
+                    currentScore = highScore
                 }
             }
 
@@ -55,8 +69,8 @@ class EndView : AppCompatActivity(){
     }
 
     private fun goContinue() {
-        val intent = Intent(this, GameView::class.java)
-        startActivity(intent)
-        finish()
+        // have the level passed in from local storage
+        gameView = GameView(this, 1 + 2)
+        setContentView(gameView)
     }
 }

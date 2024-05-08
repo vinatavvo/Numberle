@@ -55,11 +55,12 @@ class MainActivity : AppCompatActivity() {
 
     fun login(v: View) {
         email = emailText.text.toString()
+        reference.child(email).setValue(5)
 
         reference.child(email).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    reference.child(email).setValue(1)
+                    reference.child(email).setValue(0)
                 }
                 populateSpinner(email)
             }
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     fun play(v: View) {
         val selectedLevelPosition = spinner.selectedItemPosition
         val selectedLevelText = spinner.selectedItem.toString()
-        var levelNumber = 0
+        var levelNumber = 1
         if (selectedLevelText == "Select Level"){
             // implement push notification to tell them to choose a level
             Log.w("MainActivity", "PUSH NOTIFICATION")
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", "Selected Level Number: $levelNumber")
         Log.d("MainActivity", "Spinner Count: ${spinner.count}")
 
-        gameView = GameView(this, levelNumber + 1)
+        gameView = GameView(this, levelNumber + 2)
         setContentView(gameView)
     }
 

@@ -72,7 +72,6 @@ class EndView: AppCompatActivity(){
             leaderboardTextView.setTextColor(Color.WHITE)
         }
 
-        val score = getScore()
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -176,8 +175,4 @@ class EndView: AppCompatActivity(){
             return 0
         }
     }
-
-
-
-
 }

@@ -50,17 +50,30 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
     private lateinit var endView: EndView
 
     init {
+        val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPreferences.getBoolean("mode", false)
+
         orientation = VERTICAL
         layoutParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
             LayoutParams.MATCH_PARENT
         )
-        setBackgroundColor(Color.BLACK)
+        val backgroundColor = if (isDarkMode) {
+            Color.BLACK
+        } else {
+            Color.WHITE
+        }
+        setBackgroundColor(backgroundColor)
 
         val gameNameTextView = TextView(context)
         gameNameTextView.text = "NUMBERLE"
         gameNameTextView.textSize = 36f
-        gameNameTextView.setTextColor(Color.WHITE)
+        val gameNameTextColor = if (isDarkMode) {
+            Color.WHITE
+        } else {
+            Color.BLACK
+        }
+        gameNameTextView.setTextColor(gameNameTextColor)
         gameNameTextView.gravity = Gravity.CENTER
         addView(gameNameTextView)
 
@@ -68,7 +81,12 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val displayLevel = level - 2
         levelTextView.text = "Level: $displayLevel"
         levelTextView.textSize = 18f
-        levelTextView.setTextColor(Color.WHITE)
+        val levelTextColor = if (isDarkMode) {
+            Color.WHITE
+        } else {
+            Color.BLACK
+        }
+        levelTextView.setTextColor(levelTextColor)
         levelTextView.gravity = Gravity.CENTER
         val levelParams = LayoutParams(
             LayoutParams.MATCH_PARENT,
@@ -95,10 +113,12 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val borderSize = 6
         val availableWidth = screenWidth - (level + 1) * 4 - 2
         val tileWidth = (availableWidth - borderSize * level) / level
+        val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPreferences.getBoolean("mode", false)
 
         for (i in 0 until (level + 1)) {
             for (j in 0 until level) {
-                val tile = GuessTile(context, "", level)
+                val tile = GuessTile(context, "", level, isDarkMode)
                 val tileParams = GridLayout.LayoutParams()
                 tileParams.width = tileWidth
                 tileParams.height = tileWidth

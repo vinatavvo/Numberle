@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
     private lateinit var nameTextView: TextView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -62,37 +61,7 @@ class MainActivity : AppCompatActivity() {
         titleTextView = findViewById(R.id.title)
         nameTextView = findViewById(R.id.name)
 
-        var clicked = false;
-        val sharedPrefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
-        with(sharedPrefs.edit()) {
-            putBoolean("mode", clicked)
-            apply()
-        }
-        mode.setOnClickListener {
-            if (clicked) {
-                mode.text = "Light Mode"
-                layout.setBackgroundColor(Color.WHITE)
-                usernameInput.setTextColor(Color.BLACK)
-                mode.setBackgroundColor(Color.BLACK)
-                mode.setTextColor(Color.WHITE)
-                titleTextView.setTextColor(Color.BLACK)
-                nameTextView.setTextColor(Color.BLACK)
-
-            } else {
-                mode.text = "Dark Mode"
-                layout.setBackgroundColor(Color.BLACK)
-                usernameInput.setTextColor(Color.WHITE)
-                mode.setBackgroundColor(Color.WHITE)
-                mode.setTextColor(Color.BLACK)
-                titleTextView.setTextColor(Color.WHITE)
-                nameTextView.setTextColor(Color.WHITE)
-            }
-            clicked = !clicked
-            with(sharedPrefs.edit()) {
-                putBoolean("mode", clicked)
-                apply()
-            }
-        }
+        setupModeUI()
 
         var notificationPermissionStatus : Int
                 = ContextCompat.checkSelfPermission( this, permission )
@@ -125,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         val defaultAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, defaultList)
         defaultAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = defaultAdapter
+        spinner.setBackgroundResource(R.drawable.spinner_background)
 
         loginButton.setOnClickListener {
             login(it)
@@ -156,7 +126,58 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private fun setupModeUI() {
+        val sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        var isDarkMode = sharedPreferences.getBoolean("mode", false)
+        Log.w("MainActivity", isDarkMode.toString())
+        val backgroundColor: Int
+        val textColor: Int
+        val buttonBackgroundColor: Int
+        val buttonTextColor: Int
 
+        if (isDarkMode) {
+            mode.text = "Dark Mode"
+            backgroundColor = Color.BLACK
+            textColor = Color.WHITE
+            buttonBackgroundColor = Color.WHITE
+            buttonTextColor = Color.BLACK
+        } else {
+            mode.text = "Light Mode"
+            backgroundColor = Color.WHITE
+            textColor = Color.BLACK
+            buttonBackgroundColor = Color.BLACK
+            buttonTextColor = Color.WHITE
+        }
+
+        layout.setBackgroundColor(backgroundColor)
+        usernameInput.setTextColor(textColor)
+        mode.setBackgroundColor(buttonBackgroundColor)
+        mode.setTextColor(buttonTextColor)
+        titleTextView.setTextColor(textColor)
+        nameTextView.setTextColor(textColor)
+
+        mode.setOnClickListener {
+            isDarkMode = !isDarkMode
+            val modeText = if (isDarkMode) "Dark Mode" else "Light Mode"
+            mode.text = modeText
+            val newBackgroundColor = if (isDarkMode) Color.BLACK else Color.WHITE
+            val newTextColor = if (isDarkMode) Color.WHITE else Color.BLACK
+            val newButtonBackgroundColor = if (isDarkMode) Color.WHITE else Color.BLACK
+            val newButtonTextColor = if (isDarkMode) Color.BLACK else Color.WHITE
+
+            layout.setBackgroundColor(newBackgroundColor)
+            usernameInput.setTextColor(newTextColor)
+            mode.setBackgroundColor(newButtonBackgroundColor)
+            mode.setTextColor(newButtonTextColor)
+            titleTextView.setTextColor(newTextColor)
+            nameTextView.setTextColor(newTextColor)
+
+            with(sharedPreferences.edit()) {
+                putBoolean("mode", isDarkMode)
+                apply()
+            }
+        }
+    }
     fun login(v: View) {
         username = usernameInput.text.toString()
 

@@ -67,7 +67,7 @@ class EndView: AppCompatActivity(){
         val mode = getMode()
         userScoreTextView.text = "Current Score: $score"
         Log.w("MainActivity", mode.toString())
-        // set up mode from local storage
+
         if(!mode){
             layout.setBackgroundColor(Color.WHITE)
             titleTextView.setTextColor(Color.BLACK)
@@ -97,9 +97,15 @@ class EndView: AppCompatActivity(){
         })
 
         listView = findViewById(R.id.leaderboardListView)
-        leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
+        leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.list_item_leaderboard) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val view = super.getView(position, convertView, parent)
+                val textView = view.findViewById<TextView>(R.id.leaderboardText)
+                if (mode) {
+                    textView.setTextColor(Color.WHITE)
+                } else {
+                    textView.setTextColor(Color.BLACK)
+                }
                 return view
             }
         }

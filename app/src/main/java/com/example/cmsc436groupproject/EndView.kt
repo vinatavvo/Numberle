@@ -1,6 +1,10 @@
 package com.example.cmsc436groupproject
 
+
+
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,8 +12,20 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.*
-class EndView : AppCompatActivity(){
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+
+
+
+class EndView: AppCompatActivity(){
+    private lateinit var firebase: FirebaseDatabase
+    private lateinit var reference: DatabaseReference
     private lateinit var listView: ListView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var leaderboardAdapter: ArrayAdapter<String>
@@ -60,6 +76,7 @@ class EndView : AppCompatActivity(){
                 Log.w("ERROR", "There's an error")
             }
         })
+        sendPushNotification("test", 3)
     }
 
     private fun goLogin() {
@@ -73,4 +90,34 @@ class EndView : AppCompatActivity(){
         gameView = GameView(this, 1 + 2)
         setContentView(gameView)
     }
+
+
+    private fun sendPushNotification(userName: String, score: Int) {
+        val notificationId = 1
+        val channelId = "12345"
+        val message = "$userName set a new high score: $score"
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.mipmap.appicon)
+            .setContentTitle("New High Score!")
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setAutoCancel(true)
+
+        NotificationManagerCompat.from(this).apply {
+            if (ActivityCompat.checkSelfPermission(
+                    this@EndView,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+            Log.w("EndView", "Push here")
+            notify(notificationId, notificationBuilder.build())
+        }
+    }
+
+
+
+
+
 }

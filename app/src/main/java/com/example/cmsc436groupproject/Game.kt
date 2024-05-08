@@ -57,6 +57,12 @@ class Game(private var level: Int) {
                 Log.d("Game", wrongAnswer.toString())
             }
         }
+
+        remainingGuesses--
+        if (remainingGuesses <= 0 && (guess.joinToString("").toLong() != answer)) {
+            isGameOver = true
+        }
+
         return statusList
     }
 

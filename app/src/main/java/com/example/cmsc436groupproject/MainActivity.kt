@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -41,6 +43,9 @@ class MainActivity : AppCompatActivity() {
     private var permission : String = Manifest.permission.POST_NOTIFICATIONS
     private lateinit var launcher : ActivityResultLauncher<String>
     private lateinit var layout: RelativeLayout
+    private lateinit var titleTextView: TextView
+    private lateinit var nameTextView: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,19 +59,39 @@ class MainActivity : AppCompatActivity() {
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("usernames")
         layout = findViewById(R.id.startScreen)
+        titleTextView = findViewById(R.id.title)
+        nameTextView = findViewById(R.id.name)
 
-        var clicked = false
+        var clicked = false;
+        val sharedPrefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        with(sharedPrefs.edit()) {
+            putBoolean("mode", clicked)
+            apply()
+        }
         mode.setOnClickListener {
             if (clicked) {
-                layout.setBackgroundColor(Color.WHITE)
                 mode.text = "Light Mode"
+                layout.setBackgroundColor(Color.WHITE)
+                usernameInput.setTextColor(Color.BLACK)
                 mode.setBackgroundColor(Color.BLACK)
                 mode.setTextColor(Color.WHITE)
+                titleTextView.setTextColor(Color.BLACK)
+                nameTextView.setTextColor(Color.BLACK)
 
             } else {
                 mode.text = "Dark Mode"
+                layout.setBackgroundColor(Color.BLACK)
+                usernameInput.setTextColor(Color.WHITE)
+                mode.setBackgroundColor(Color.WHITE)
+                mode.setTextColor(Color.BLACK)
+                titleTextView.setTextColor(Color.WHITE)
+                nameTextView.setTextColor(Color.WHITE)
             }
             clicked = !clicked
+            with(sharedPrefs.edit()) {
+                putBoolean("mode", clicked)
+                apply()
+            }
         }
 
         var notificationPermissionStatus : Int

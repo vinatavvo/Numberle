@@ -5,12 +5,16 @@ package com.example.cmsc436groupproject
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -30,13 +34,44 @@ class EndView: AppCompatActivity(){
     private lateinit var databaseReference: DatabaseReference
     private lateinit var leaderboardAdapter: ArrayAdapter<String>
     private lateinit var gameView: GameView
+    private lateinit var titleTextView: TextView
+    private lateinit var userScoreTextView: TextView
+    private lateinit var userHighScoreTextView: TextView
+    private lateinit var leaderboardTextView: TextView
+    private lateinit var leaderboardListView: ListView
+    private lateinit var playAgainButton: Button
+    private lateinit var loginScreenButton: Button
+    private lateinit var layout: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end)
 
+        titleTextView = findViewById(R.id.title)
+        userScoreTextView = findViewById(R.id.userScore)
+        userHighScoreTextView = findViewById(R.id.userHighScore)
+        leaderboardTextView = findViewById(R.id.leaderboard)
+        layout = findViewById(R.id.endScreen)
+
         val currentUsername = getUsername()
         val currentScore = getScore()
+        val mode = getMode()
+        Log.w("MainActivity", mode.toString())
+        // set up mode from local storage
+        if(!mode){
+            layout.setBackgroundColor(Color.WHITE)
+            titleTextView.setTextColor(Color.BLACK)
+            userScoreTextView.setTextColor(Color.BLACK)
+            userHighScoreTextView.setTextColor(Color.BLACK)
+            leaderboardTextView.setTextColor(Color.BLACK)
+        } else {
+            layout.setBackgroundColor(Color.BLACK)
+            titleTextView.setTextColor(Color.WHITE)
+            userScoreTextView.setTextColor(Color.WHITE)
+            userHighScoreTextView.setTextColor(Color.WHITE)
+            leaderboardTextView.setTextColor(Color.WHITE)
+        }
+
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -119,6 +154,12 @@ class EndView: AppCompatActivity(){
             notify(notificationId, notificationBuilder.build())
         }
     }
+
+    private fun getMode(): Boolean {
+        val sharedPrefs = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPrefs.getBoolean("mode", false)
+    }
+
     private fun getUsername(): String? {
         val sharedPrefs = getSharedPreferences("AppPrefs", MODE_PRIVATE)
         return sharedPrefs.getString("username", null)

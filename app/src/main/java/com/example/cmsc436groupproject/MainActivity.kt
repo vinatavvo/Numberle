@@ -1,10 +1,9 @@
 package com.example.cmsc436groupproject
 
-import android.content.Context
-import android.graphics.Color
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -132,6 +131,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 Toast.makeText(v.context, "Successful Log In", Toast.LENGTH_LONG).show()
                 populateSpinner(username)
+                val sharedPrefs = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+                with(sharedPrefs.edit()) {
+                    putString("username", username)
+                    apply()
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

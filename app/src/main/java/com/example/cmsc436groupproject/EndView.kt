@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
@@ -36,7 +35,7 @@ class EndView: AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end)
 
-
+        val currentUsername = getUsername() ?: "Guest"
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -64,6 +63,9 @@ class EndView: AppCompatActivity(){
                 for ((index, entry) in leaderboardEntries.withIndex()) {
                     val username = entry.first
                     val highScore = entry.second
+                    if (username == currentUsername) {
+                        sendPushNotification(username, highScore)
+                    }
                     if (index > 0 && highScore != currentScore) {
                         currentRank++
                         if (currentRank > 5) break
@@ -78,7 +80,6 @@ class EndView: AppCompatActivity(){
                 Log.w("ERROR", "There's an error")
             }
         })
-        sendPushNotification("test", 3)
     }
 
     private fun goLogin() {
@@ -117,7 +118,10 @@ class EndView: AppCompatActivity(){
             notify(notificationId, notificationBuilder.build())
         }
     }
-
+    private fun getUsername(): String? {
+        val sharedPrefs = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        return sharedPrefs.getString("username", null)
+    }
 
 
 

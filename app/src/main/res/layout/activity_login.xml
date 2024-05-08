@@ -4,8 +4,20 @@
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:id="@+id/startScreen">
+
+    <Button
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/white"
+        android:text="Dark Mode"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/title"
@@ -13,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="NUMBERLE"
+        android:layout_marginTop="200dp"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="60sp" />

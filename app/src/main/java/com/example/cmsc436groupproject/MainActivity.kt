@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var usernameInput: EditText
     private lateinit var playButton: Button
     private lateinit var loginButton: Button
+    private lateinit var mode: Button
     private lateinit var spinner: Spinner
     private lateinit var firebase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var score = 0
     private var permission : String = Manifest.permission.POST_NOTIFICATIONS
     private lateinit var launcher : ActivityResultLauncher<String>
+    private lateinit var layout: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +51,24 @@ class MainActivity : AppCompatActivity() {
         usernameInput = findViewById(R.id.usernameInput)
         playButton = findViewById(R.id.play)
         loginButton = findViewById(R.id.login)
+        mode = findViewById(R.id.mode)
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("usernames")
+        layout = findViewById(R.id.startScreen)
+
+        var clicked = false
+        mode.setOnClickListener {
+            if (clicked) {
+                layout.setBackgroundColor(Color.WHITE)
+                mode.text = "Light Mode"
+                mode.setBackgroundColor(Color.BLACK)
+                mode.setTextColor(Color.WHITE)
+
+            } else {
+                mode.text = "Dark Mode"
+            }
+            clicked = !clicked
+        }
 
         var notificationPermissionStatus : Int
                 = ContextCompat.checkSelfPermission( this, permission )
@@ -112,10 +131,7 @@ class MainActivity : AppCompatActivity() {
                 Log.w( "MainActivity", "Permission denied by user" )
             }
         }
-
     }
-
-
 
     fun login(v: View) {
         username = usernameInput.text.toString()

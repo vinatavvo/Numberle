@@ -51,10 +51,21 @@ class MainActivity : AppCompatActivity() {
         var notificationPermissionStatus : Int
                 = ContextCompat.checkSelfPermission( this, permission )
         if( notificationPermissionStatus == PackageManager.PERMISSION_GRANTED ) {
-            Log.w( "MainActivity", "camera permission granted" )
+            Log.w( "MainActivity", "Push Notification given" )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "Notifications"
+                val descriptionText = "Give Notifications"
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val mChannel = NotificationChannel("12345", name, importance)
+                mChannel.description = descriptionText
+
+                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(mChannel)
+                Log.w("MainActivity", "Notification Channel Created")
+            }
 
         } else {
-            Log.w( "MainActivity", "Asking user for camera permission" )
+            Log.w( "MainActivity", "Asking user for push permission" )
             var contract : ActivityResultContracts.RequestPermission
                     = ActivityResultContracts.RequestPermission( )
             var results : Results = Results( )
@@ -82,16 +93,15 @@ class MainActivity : AppCompatActivity() {
             if(result) {
                 Log.w( "MainActivity", "User just granted permission" )
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    // Create the NotificationChannel.
                     val name = "Notifications"
                     val descriptionText = "Give Notifications"
-                    val importance = NotificationManager.IMPORTANCE_DEFAULT
+                    val importance = NotificationManager.IMPORTANCE_HIGH
                     val mChannel = NotificationChannel("12345", name, importance)
                     mChannel.description = descriptionText
-                    // Register the channel with the system. You can't change the importance
-                    // or other notification behaviors after this.
+
                     val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
                     notificationManager.createNotificationChannel(mChannel)
+                    Log.w("MainActivity", "Notification Channel Created")
                 }
 
 

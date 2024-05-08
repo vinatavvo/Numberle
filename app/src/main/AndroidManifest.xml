@@ -31,10 +31,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".EndView" 
-                  android:exported="true">
+                  android:exported="true"
           />
         <activity android:name=".GameView" />
 
+        <activity
             android:name="com.google.android.gms.ads.AdActivity" />
 
 

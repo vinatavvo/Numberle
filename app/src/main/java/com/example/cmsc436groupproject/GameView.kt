@@ -14,9 +14,9 @@ import android.view.View
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import android.widget.ProgressBar
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -274,9 +274,8 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
 
         // go to end screen
-//        val intent = Intent(this, EndView::class.java)
-//        startActivity(intent)
-//        finish()
+        val intent = Intent(context, EndView::class.java)
+        context.startActivity(intent)
     }
 
     private fun nextLevel() {

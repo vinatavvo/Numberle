@@ -115,9 +115,4 @@ class EndView: AppCompatActivity(){
             notify(notificationId, notificationBuilder.build())
         }
     }
-
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.cmsc436groupproject
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var spinner: Spinner
     private lateinit var firebase: FirebaseDatabase
     private lateinit var reference: DatabaseReference
-    private lateinit var username: String
+    lateinit var username: String
     private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,8 @@ class MainActivity : AppCompatActivity() {
             play(it)
         }
     }
+
+
 
     fun login(v: View) {
         username = usernameInput.text.toString()
@@ -116,5 +119,11 @@ class MainActivity : AppCompatActivity() {
                 Log.w("ERROR", "There's an error")
             }
         })
+    }
+
+    companion object {
+        fun getName(context: Context): String {
+            return (context as MainActivity).username
+        }
     }
 }

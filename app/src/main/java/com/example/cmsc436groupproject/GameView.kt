@@ -17,12 +17,17 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlin.math.abs
 import kotlin.math.pow
 
@@ -273,10 +278,32 @@ class GameView(context: Context, private var level: Int) : LinearLayout(context)
         val toastMessage = "Game Over. The answer was: $generatedAnswer"
         Toast.makeText(context, toastMessage, Toast.LENGTH_LONG).show()
 
-        // go to end screen
-//        val intent = Intent(this, EndView::class.java)
-//        startActivity(intent)
-//        finish()
+        var name = MainActivity.getName(context)
+        var firebase = FirebaseDatabase.getInstance()
+        var reference = firebase.getReference("usernames")
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (entry in dataSnapshot.children) {
+                    val username = entry.key ?: ""
+                    if (username == name){
+                        var curr = level - 2
+                        val highScore = entry.getValue(Int::class.java) ?: 0
+                        if(curr > highScore) {
+                            reference.child(name).setValue(curr)
+                        }
+                    }
+                }
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w("ERROR", "There's an error")
+            }
+        })
+
+        val intent = Intent(context, EndView::class.java)
+        context.startActivity(intent)
     }
 
     private fun nextLevel() {

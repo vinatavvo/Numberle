@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 class EndView : AppCompatActivity(){
@@ -16,9 +17,11 @@ class EndView : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end)
 
+
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1)
         listView.adapter = leaderboardAdapter
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference("usernames")
         databaseReference.addValueEventListener(object : ValueEventListener {

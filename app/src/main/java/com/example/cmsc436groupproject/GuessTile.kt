@@ -7,12 +7,17 @@ import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 
-class GuessTile(context: Context, text: String, level: Int) : AppCompatTextView(context) {
+class GuessTile(context: Context, text: String, level: Int, private val isDarkMode: Boolean) : AppCompatTextView(context) {
 
     init {
         setText(text)
         textSize = 150f / level
-        setTextColor(Color.WHITE)
+        val textColor = if (isDarkMode) {
+            Color.WHITE
+        } else {
+            Color.BLACK
+        }
+        setTextColor(textColor)
         setTypeface(null, Typeface.BOLD)
         setBackgroundWithBorder()
         gravity = Gravity.CENTER

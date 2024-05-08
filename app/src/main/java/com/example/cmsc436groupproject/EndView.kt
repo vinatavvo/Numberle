@@ -28,8 +28,6 @@ import com.google.firebase.database.ValueEventListener
 
 
 class EndView: AppCompatActivity(){
-    private lateinit var firebase: FirebaseDatabase
-    private lateinit var reference: DatabaseReference
     private lateinit var listView: ListView
     private lateinit var databaseReference: DatabaseReference
     private lateinit var leaderboardAdapter: ArrayAdapter<String>
@@ -38,9 +36,6 @@ class EndView: AppCompatActivity(){
     private lateinit var userScoreTextView: TextView
     private lateinit var userHighScoreTextView: TextView
     private lateinit var leaderboardTextView: TextView
-    private lateinit var leaderboardListView: ListView
-    private lateinit var playAgainButton: Button
-    private lateinit var loginScreenButton: Button
     private lateinit var layout: RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +51,7 @@ class EndView: AppCompatActivity(){
         val currentUsername = getUsername()
         val score = getScore()
         val mode = getMode()
+        userScoreTextView.text = "Current Score: $score"
         Log.w("MainActivity", mode.toString())
         // set up mode from local storage
         if(!mode){
@@ -72,6 +68,20 @@ class EndView: AppCompatActivity(){
             leaderboardTextView.setTextColor(Color.WHITE)
         }
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("usernames").child(currentUsername.toString())
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val highScore = dataSnapshot.getValue(Int::class.java)
+                if (highScore != null) {
+                    userHighScoreTextView.text = "High Score: $highScore"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w("EndView", "Failed to read value.", databaseError.toException())
+            }
+        })
+
         listView = findViewById(R.id.leaderboardListView)
         leaderboardAdapter = object : ArrayAdapter<String>(this, R.layout.leaderboard, R.id.leaderboardText) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -80,7 +90,6 @@ class EndView: AppCompatActivity(){
             }
         }
         listView.adapter = leaderboardAdapter
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference("usernames")
         databaseReference.addValueEventListener(object : ValueEventListener {

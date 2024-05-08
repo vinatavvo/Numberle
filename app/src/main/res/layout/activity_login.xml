@@ -30,7 +30,7 @@
         android:textColor="@color/white" />
 
     <EditText
-        android:id="@+id/editTextName"
+        android:id="@+id/usernameInput"
         android:layout_width="247dp"
         android:layout_height="48dp"
         android:layout_alignLeft="@+id/name"
@@ -46,7 +46,7 @@
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextName"
+        android:layout_below="@+id/usernameInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:backgroundTint="@color/white"

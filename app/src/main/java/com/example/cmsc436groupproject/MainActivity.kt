@@ -1,6 +1,10 @@
 package com.example.cmsc436groupproject
 
-import android.graphics.Color
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,11 +13,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var reference: DatabaseReference
     private lateinit var username: String
     private var score = 0
+    private var permission : String = Manifest.permission.POST_NOTIFICATIONS
+    private lateinit var launcher : ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +48,32 @@ class MainActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.login)
         firebase = FirebaseDatabase.getInstance()
         reference = firebase.getReference("usernames")
+
+        var notificationPermissionStatus : Int
+                = ContextCompat.checkSelfPermission( this, permission )
+        if( notificationPermissionStatus == PackageManager.PERMISSION_GRANTED ) {
+            Log.w( "MainActivity", "Push Notification given" )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = "Notifications"
+                val descriptionText = "Give Notifications"
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val mChannel = NotificationChannel("12345", name, importance)
+                mChannel.description = descriptionText
+
+                val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                notificationManager.createNotificationChannel(mChannel)
+                Log.w("MainActivity", "Notification Channel Created")
+            }
+
+        } else {
+            Log.w( "MainActivity", "Asking user for push permission" )
+            var contract : ActivityResultContracts.RequestPermission
+                    = ActivityResultContracts.RequestPermission( )
+            var results : Results = Results( )
+            launcher = registerForActivityResult( contract, results )
+            launcher.launch( permission )
+
+        }
 
         val defaultText = "Select Level"
         val defaultList = mutableListOf(defaultText)
@@ -52,6 +88,29 @@ class MainActivity : AppCompatActivity() {
         playButton.setOnClickListener {
             play(it)
         }
+    }
+    inner class Results : ActivityResultCallback<Boolean> {
+        override fun onActivityResult(result: Boolean) {
+            if(result) {
+                Log.w( "MainActivity", "User just granted permission" )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val name = "Notifications"
+                    val descriptionText = "Give Notifications"
+                    val importance = NotificationManager.IMPORTANCE_HIGH
+                    val mChannel = NotificationChannel("12345", name, importance)
+                    mChannel.description = descriptionText
+
+                    val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                    notificationManager.createNotificationChannel(mChannel)
+                    Log.w("MainActivity", "Notification Channel Created")
+                }
+
+
+            } else {
+                Log.w( "MainActivity", "Permission denied by user" )
+            }
+        }
+
     }
 
     fun login(v: View) {

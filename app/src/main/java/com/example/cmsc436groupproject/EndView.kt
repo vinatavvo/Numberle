@@ -164,10 +164,10 @@ class EndView: AppCompatActivity(){
     private fun sendPushNotification(userName: String, score: Int) {
         val notificationId = 1
         val channelId = "12345"
-        val message = "$userName set a new high score: $score"
+        val message = "$userName is in first place with a score of $score!"
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.mipmap.appicon)
-            .setContentTitle("New High Score!")
+            .setContentTitle("Top Score!")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setAutoCancel(true)
